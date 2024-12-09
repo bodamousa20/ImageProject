@@ -4,6 +4,8 @@ from ImageAlgoritm.grayscale import convert_to_grayscale
 
 # تطبيق Halftone بسيط باستخدام Threshold
 def apply_simple_halftone(image):
+
+
     """
     تطبيق Halftone بسيط (Threshold) على الصورة.
     
@@ -12,6 +14,10 @@ def apply_simple_halftone(image):
         
     Returns:
         PIL.Image: الصورة بعد تطبيق الـ Halftone البسيط.
+
+
+
+
     """
     grayscale_image = convert_to_grayscale(image)
     
@@ -21,82 +27,14 @@ def apply_simple_halftone(image):
     return thresholded_image
 
 
-# def apply_advanced_halftone(image, threshold=128, one=255, zero=0):
-#     """
-#     تطبيق Halftone متقدم باستخدام توزيع الخطأ المخصص في الكتاب.
-#     Args:
-#         image (PIL.Image): الصورة المدخلة (RGB أو Grayscale).
-#         threshold (int): قيمة العتبة.
-#         one (int): قيمة البكسل إذا كانت النتيجة أعلى من العتبة.
-#         zero (int): قيمة البكسل إذا كانت النتيجة أقل من أو تساوي العتبة.
-#     Returns:
-#         PIL.Image: الصورة بعد تطبيق Halftone.
-#     """
-#     # التأكد من تحويل الصورة إلى Grayscale
-#     if len(np.array(image).shape) == 3:  # إذا كانت الصورة تحتوي على 3 أبعاد (RGB)
-#         image = convert_to_grayscale(image)
-    
-#     # تحويل الصورة إلى numpy array
-#     img_array = np.array(image, dtype=np.float32)
-#     rows, cols = img_array.shape  # الآن الصورة يجب أن تحتوي فقط على بُعدين
-    
-#     # إنشاء مصفوفتين لتخزين الأخطاء الموزعة
-#     ep = np.zeros((rows, cols), dtype=np.float32)  # مجموع الأخطاء الموزعة
-#     eg = np.zeros((rows, cols), dtype=np.float32)  # الأخطاء الناتجة
-    
-#     # مصفوفة توزيع الأخطاء (كما في الكتاب)
-#     c = np.array([
-#         [0.0, 0.2, 0.0],
-#         [0.6, 0.1, 0.1]
-#     ])
-    
-#     # مصفوفة الصورة الناتجة
-#     out_image = np.zeros((rows, cols), dtype=np.uint8)
-    
-#     # تطبيق توزيع الأخطاء
-#     for m in range(rows):
-#         for n in range(cols):
-#             sum_p = 0.0
-#             for i in range(2):
-#                 for j in range(3):
-#                     xx = m - i + 1
-#                     yy = n - j + 1
-#                     if xx < 0:
-#                         xx = 0
-#                     if xx >= rows:
-#                         xx = rows - 1
-#                     if yy < 0:
-#                         yy = 0
-#                     if yy >= cols:
-#                         yy = cols - 1
-#                     sum_p += c[i, j] * eg[xx, yy]
-            
-#             ep[m, n] = sum_p
-#             t = img_array[m, n] + ep[m, n]
-            
-#             # تعيين البكسل إلى one أو zero بناءً على العتبة
-#             if t > threshold:
-#                 eg[m, n] = t - threshold * 2
-#                 out_image[m, n] = one
-#             else:
-#                 eg[m, n] = t
-#                 out_image[m, n] = zero
-    
-#     # تحويل الصورة الناتجة إلى PIL.Image
-#     halftoned_image = Image.fromarray(out_image)
-#     return halftoned_image
-
 
 # تطبيق Halftone متقدم (Error Diffusion) باستخدام Floyd-Steinberg
 def apply_advanced_halftone(image):
     """
-    تطبيق Halftone متقدم (Error Diffusion) باستخدام طريقة Floyd-Steinberg.
-    
-    Args:
-        image (PIL.Image): الصورة المدخلة (RGB).
-        
-    Returns:
-        PIL.Image: الصورة بعد تطبيق الـ Halftone المتقدم.
+7/16 the right pixel
+3/16 to bottom left pixel
+5/16 to bottom pixel
+1/16 to bottom right pixel
     """
     # تحويل الصورة إلى تدرجات الرمادي باستخدام دالة convert_to_grayscale من utils.grayscale
     grayscale_image = convert_to_grayscale(image)

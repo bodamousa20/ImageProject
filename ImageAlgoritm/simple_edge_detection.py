@@ -21,11 +21,11 @@ def sobel_filter(image):
 # Prewitt Filter (كشف الحواف)
 def prewitt_filter(image):
     prewitt_x = np.array([[1, 0, -1],
-                          [1, 0, -1],
-                          [1, 0, -1]], dtype=np.float32)
+                            [1, 0, -1],
+                             [1, 0, -1]], dtype=np.float32)
     prewitt_y = np.array([[1, 1, 1],
-                          [0, 0, 0],
-                          [-1, -1, -1]], dtype=np.float32)
+                            [0, 0, 0],
+                             [-1, -1, -1]], dtype=np.float32)
 
     grad_x = apply_convolution(image, prewitt_x)
     grad_y = apply_convolution(image, prewitt_y)

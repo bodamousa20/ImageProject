@@ -1,5 +1,10 @@
 import numpy as np
 
+"""
+
+
+7/16 to right pixel 
+"""
 
 def homogeneity_operator(image, window_size=3):
     height, width = image.shape
